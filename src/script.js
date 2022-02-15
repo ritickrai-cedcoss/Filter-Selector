@@ -1,177 +1,200 @@
-var arrayTable = [];
-var operatingSystem = [];
-var brandSystem = [];
 var storeItem = [
-  {
-    id: "100",
-    name: "iPhone 4S",
-    brand: "Apple",
-    os: "iOS",
-  },
-  {
-    id: "101",
-    name: "Moto X",
-    brand: "Motorola",
-    os: "Android",
-  },
-  {
-    id: "102",
-    name: "iPhone 6",
-    brand: "Apple",
-    os: "iOS",
-  },
-  {
-    id: "103",
-    name: "Samsung Galaxy S",
-    brand: "Samsung",
-    os: "Android",
-  },
-  {
-    id: "104",
-    name: "Google Nexus",
-    brand: "ASUS",
-    os: "Android",
-  },
-  {
-    id: "105",
-    name: "Surface",
-    brand: "Microsoft",
-    os: "Windows",
-  },
+	{
+		id: "100",
+		name: "iPhone 4S",
+		brand: "Apple",
+		os: "iOS",
+	},
+	{
+		id: "101",
+		name: "Moto X",
+		brand: "Motorola",
+		os: "Android",
+	},
+	{
+		id: "102",
+		name: "iPhone 6",
+		brand: "Apple",
+		os: "iOS",
+	},
+	{
+		id: "103",
+		name: "Samsung Galaxy S",
+		brand: "Samsung",
+		os: "Android",
+	},
+	{
+		id: "104",
+		name: "Google Nexus",
+		brand: "ASUS",
+		os: "Android",
+	},
+	{
+		id: "105",
+		name: "Surface",
+		brand: "Microsoft",
+		os: "Windows",
+	},
 ];
+var uniqueBrands = [];
+var uniqueOs = [];
 
-//display the dropdown
+function brandValue() {
+	var brand = $("#brandNames option:selected").text();
+	return brand;
+}
+function osValue() {
+	var Os = $("#brandOs option:selected").text();
+	return Os;
+}
+
+
+
+function search(){
+	var selected=[]
+	$("#selectbox").on("click","#search", function () {
+		var value = $("#myInput").val();
+		
+		/* console.log(value)
+		console.log(storeItem.find(x => x.id === value),storeItem.find(x => x.name === value)); */
+		for(var i=0;i<storeItem.length;i++){
+		
+			if(value==storeItem[i].id){
+				selected.push(storeItem[i])
+			
+				
+			}
+			if(value==storeItem[i].name){
+				selected.push(storeItem[i])
+				
+			}
+			if(storeItem[i].name.toLocaleLowerCase().includes(value.toLocaleLowerCase())){
+				selected.push(storeItem[i])
+				console.log(storeItem[i].name)
+			}
+
+			display(selected)
+		}
+		selected=[]
+	});
+	
+}
 function dropdown() {
-  filterData();
-  var dropOne =
-    '<div id="dropdiv"><select id="osInput" name="" onchange="runOS()"><option value="os">os</option>';
-  for (var i = 0; i < operatingSystem.length; i++) {
-    dropOne +=
-      "<option data-value=" +
-      operatingSystem[i] +
-      ">" +
-      operatingSystem[i] +
-      "</option>";
-  }
-  dropOne +=
-    "</select><select id='brandInput' name='' onchange='runBrand()'><option value='brand'>Brand</option>";
-
-  for (var i = 0; i < brandSystem.length; i++) {
-    dropOne +=
-      "<option data-value=" +
-      brandSystem[i] +
-      ">" +
-      brandSystem[i] +
-      "</option>";
-  }
-  dropOne += "</select><input type='search' id='search' value='Search'></div>";
-
-  return dropOne;
+		var selected = [];
+		var brandvalue = brandValue();
+		var Osvalue = osValue();
+		console.log(brandvalue, Osvalue)
+		
+		for (var i = 0; i < storeItem.length; i++) {
+			if (brandvalue == "Brand" && Osvalue == "Os") {
+				console.log(brandvalue, Osvalue);
+				selected=storeItem
+			}
+			if (Osvalue == storeItem[i].os && brandvalue == "Brand") {
+				console.log(storeItem[i], Osvalue);
+				selected.push(storeItem[i])
+			}
+			if (brandvalue == storeItem[i].brand && Osvalue == "Os") {
+				console.log(storeItem[i]);
+				selected.push(storeItem[i])
+			}
+			if (brandvalue == storeItem[i].brand && Osvalue == storeItem[i].os) {
+				console.log(storeItem[i]);
+				selected.push(storeItem[i])
+			}
+		
+		}
+		console.log(selected,"selected")
+		display(selected)
 }
-
-function runOS() {
-  var selectOS = $("#osInput").val();
-  console.log("value of select os : " + selectOS);
-  return selectOS;
+function uniqueValues(){
+	for (var i = 0; i < storeItem.length; i++) {
+		if (!uniqueBrands.includes(storeItem[i].brand)) {
+			uniqueBrands.push(storeItem[i].brand);
+		}
+		if (!uniqueOs.includes(storeItem[i].os)) {
+			uniqueOs.push(storeItem[i].os);
+		}
+	}
+	console.log(uniqueBrands, uniqueOs, "list");
+	var inp =
+		'<div id="drop"><input id="myInput" type="text" placeholder="Search by Id or Name"></input>';
+	var dropdownBrands =
+		inp +
+		'<select id="brandNames" name=" brands"><option value=\'Brand\'>Brand</option> ';
+	for (var i = 0; i < uniqueBrands.length; i++) {
+		dropdownBrands +=
+			"<Option value=" + uniqueBrands[i] + " >" + uniqueBrands[i] + "</option>";
+	}
+	dropdownBrands += "</select>";
+	var dropdownOs =
+		dropdownBrands +
+		'<select id="brandOs" name=" brands"><option value=\'Os\'>Os</option>';
+	for (var i = 0; i < uniqueOs.length; i++) {
+		dropdownOs +=
+			"<Option data-value=" + uniqueOs[i] + " >" + uniqueOs[i] + "</option>";
+	}
+	dropdownOs += "</select><button id=\"search\">Search</button></div>";
+	$("#selectbox").html(dropdownOs)
+	
 }
+function display(selected) {
+	
+	var data =
+		'<div><table id="mytable">\
+    <tr>\
+        <th>ID</th>\
+        <th>Name</th>\
+        <th>Brand</th>\
+        <th>Operating System</th>\
+        <th>Remove</th>\
+    </tr><tbody id="tbody">';
+	
+	for (var i = 0; i < selected.length; i++) {
+		data +=
+			"<tr id= '" +
+			selected[i].id +
+			"'>\
+		<td id=\"id\" value='" +
+			selected[i].id +
+			"' >" +
+			selected[i].id +
+			'</td>\
+        <td id="name" value=\'' +
+			selected[i].name +
+			"'\">" +
+			selected[i].name +
+			" </td>\
+        <td value='" +
+			selected[i].brand +
+			"'\">" +
+			selected[i].brand +
+			"</td>\
+        <td value='" +
+			selected[i].os +
+			"'\">" +
+			selected[i].os +
+			"</td>\
+        <td data-value='" +
+			selected[i].id +
+			"'id='close'>X</td>\
+      </tr>";
+	}
 
-function runBrand(){
-  var selectBrand = $("#brandInput").val();
-  console.log("value of select brand : " + selectBrand);
-  return selectBrand;
-}
+	data += "</tbody></table></div>";
 
-function filterTable(){
-  var selected = [];
-  selectOS = runOS();
-  selectBrand = runBrand();
-  console.log("value of select brand in filterTable: " + selectBrand);
-  console.log("value of select os in filterTable : " + selectOS);
-  for(var i=0; i<storeItem.length; i++) 
-  {
-    if(selectOS== "os" && storeItem.os == "os")
-    {
-      selected=storeItem[i];
-      console.log(selected);
-    }
-    if(selectBrand==storeItem[i].brand)
-    {
-      selected=storeItem[i];
-      console.log(selected);
-    }
-  }
-  display(selected);
+	$("#main").html(data);
 }
-function filterData() {
-  for (var i = 0; i < storeItem.length; i++) {
-    if (!operatingSystem.includes(storeItem[i].os)) {
-      operatingSystem.push(storeItem[i].os);
-    }
-    if (!brandSystem.includes(storeItem[i].brand)) {
-      brandSystem.push(storeItem[i].brand);
-    }
-  }
-}
-
-//display function
-function display(modify) {
-  var dropOne = dropdown();
-  var tableData =dropOne +
-    "<table id='tableId'>\
-        <tr>\
-            <th>ID</th>\
-            <th>Name</th>\
-            <th>Brand</th>\
-            <th>Operating System</th>\
-            <th>Remove</th>\
-        </tr>";
-  for (var i = 0; i < modify.length; i++) {   
-    tableData += 
-      "<tr><td>" +
-      modify[i].id +
-      "</td><td>" +
-      modify[i].name +
-      "</td><td>" +
-      modify[i].brand +
-      "</td><td>" +
-      modify[i].os +
-      '</td><td><a href="#" data-id= ' +
-      modify[i].id +
-      ">X</a></td></tr>";
-  }
-  tableData += "</table>";
-  $("#main").html(tableData);
-
-  $("#tableId").css({
-    border: "1px solid red",
-    margin: "15px 0px",
-  });
-  $("th").css({
-    padding: "10px 20px",
-    border: "1px solid red",
-    "text-align": "center",
-  });
-  $("td").css({
-    padding: "10px 20px",
-    border: "1px solid orange",
-    "text-align": "center",
-  });
-  $("select").css({
-    padding: "5px 5px",
-    "font-size": "0.8rem",
-    "margin-right": "15px",
-  });
-  $("input").css({
-    padding: "5px 5px",
-    "font-size": "0.8rem",
-    "margin-right": "15px",
-  });
-}
-//DOCUMENT READY FUNCTION STARTS FROM HERE
 $(document).ready(function () {
-  display(storeItem);
-  $(document).on("change", "#wrapper", function(){
-      filterTable();
-  });
-  
+	uniqueValues()
+	display(storeItem)
+	$(document).on("change", "#wrapper", function () {
+	dropdown();
+	})
+	search()
+	$("#main").on("click", "#close", function () {
+		var id = $(this).data("value");
+		console.log(id);
+		$(this).parent().hide();
+	});
 });

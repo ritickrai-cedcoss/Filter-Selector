@@ -2,7 +2,66 @@
     padding: 0;
     margin: 0;
 }
-#wrapper #main{
-    margin-top: 2%;
-    margin-left: 20%;
+#wrapper{
+	width: 50%;
+	margin: 20px auto;
+}
+
+
+#close{
+	font-weight: bolder;
+	font-size: large;
+	text-align: center;
+
+}
+
+#main table{
+	width: 100%;
+    border-collapse: collapse;
+}
+
+#main table th{
+	text-align: center;
+	font-size: 1.5rem;
+    border:2px solid #00448b;
+    padding: 0 1%;
+}
+td{
+	font-size: 1.3rem;
+	text-align: center;
+    padding: 0% 1%;
+    border: 1px solid #00448b;
+}
+#close{
+    color: rgb(194, 36, 36);
+	cursor: pointer;
+}
+#dropdown{
+    margin-left: 10%;
+}
+#drop{
+	overflow: hidden;
+}
+#myInput{
+	margin-bottom: 20px;
+	padding: 1% 2%;
+}
+#search{
+	background-color: #EEEEEE;
+	padding: 5px 12px;
+	margin-left: 10px;
+    border-radius: 10px;
+}
+#search:hover{
+cursor: pointer;
+
+}
+select{
+	display: flex;
+	background-color: #EEEEEE;
+	float: left;
+	padding : 5px 12px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+    border-radius: 10px;
 }
